@@ -2,27 +2,3 @@ h2. Zend_Form Decorators and Composite Elements
 
 In this tutorial, I'm covering the how-to's on basic Zend_Form_Decorators and
 also how to create composite form elements.
-
-h3. Form Decorators
-
-At the company I work at, the frontend guys prefer the flexibility they get when
-each element in a form is wrapped in it's own dl tag. I've heard quite a few
-arguments to both sides about semantics and this-and-that, but have come to the
-conclusion that I'll do whatever makes life easiest on the team. So, with that
-in mind, our goal is to get a form to use definition lists where each Element
-is wrapped instead of entire Display Groups. Easy.
-
-The first task is to setup your base Form class (in this case, Zfx_Form). All
-application forms will extend this. It just sets up additional prefix paths,
-defines a new default display group class and default form decorators.
-
-h3. Date Select Composite Element
-
-Composite Elements are Zend_Form Elements that are comprised of multiple
-of multiple standard (or non-standard) Form Elements. The most handy of which,
-in my experience, would be a DateSelect Element, which consists of three Select
-Elements all rolled into one.
-
-We'll need a couple things to make this possible: A Form Element and a View
-Helper. The Form Element class is pretty straight forward, but the View Helper
-can get a little crazy depending on how flexible you want to make it.
