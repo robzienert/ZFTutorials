@@ -5,13 +5,12 @@ class Zfx_View_Helper_FormDateSelect extends Zend_View_Helper_Abstract
      * @var array Default date configuration
      */
     protected $_config = array(
-        'attribs' => array(),
-        'element_separator' => ' ',
-        'order' => array(
+        'element_order' => array(
             'month',
             'day',
             'year',
         ),
+        'element_separator' => ' ',
         'year_max' => null,
         'year_min' => 1900,
     );
@@ -30,15 +29,23 @@ class Zfx_View_Helper_FormDateSelect extends Zend_View_Helper_Abstract
      *
      * @param string $name
      * @param null|string $value
+     * @param array $attribs
      * @param array $config
      * @return string
      */
-    public function formDateSelect($name, $value = null, $config = array())
+    public function formDateSelect($name, $value = null, $attribs = array(), $config = array())
     {
-        $this->_config = array_merge($this->_config, $config);
+        // This is an unpleasant little hack. I'm about 99% sure that I'm doing
+        // this wrong. Forgive me, but I can't figure out how $config gets
+        // populated. :(
+        $this->_config = array_merge($this->_config, $attribs);
         if (null === $this->_config['year_max']) {
             $this->_config['year_max'] = date('Y');
         }
+        unset($attribs['element_order']);
+        unset($attribs['element_separator']);
+        unset($attribs['year_max']);
+        unset($attribs['year_mix']);
 
         if (!$this->_date->isDate($value)) {
             $value = $this->_date->toString(Zend_Date::ISO_8601);
@@ -64,21 +71,20 @@ class Zfx_View_Helper_FormDateSelect extends Zend_View_Helper_Abstract
         //    use cases, like $helper->getYearSelect() and so-on.
         $elements = array();
         for ($i = 0; $i < 3; $i++) {
-            $part = $this->_config['order'][$i];
+            $part = $this->_config['element_order'][$i];
 
             if ('day' == $part) {
-                $attribs = $this->_config['attribs'] + array('maxlength' => 2);
                 $elements[] = $this->view->formText(
                     $name . '_day',
                     $day,
-                    $this->_config['attribs'],
+                    $attribs + array('maxlength' => 2),
                     $monthOptions);
             } else {
                 $optionVar = "{$part}Options";
                 $elements[] = $this->view->formSelect(
                     $name . '_' . $part,
                     $$part, // $year, $month
-                    $this->_config['attribs'],
+                    $attribs,
                     $$optionVar // $yearOptions, $monthOptions
                 );
             }

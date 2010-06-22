@@ -12,6 +12,11 @@ class Application_Form_Register extends Zfx_Form
         $this->addElement('dateSelect', 'birthdate', array(
             'label' => 'Birthdate',
             'required' => true,
+            'element_order' => array(
+                'day',
+                'month',
+                'year',
+            ),
         ));
 
         // Display groups are completely unnecessary at this point; but added
