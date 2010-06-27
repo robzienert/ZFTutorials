@@ -1,0 +1,5 @@
+h2. Static Page Controller
+
+In this very brief tutorial, I'm covering how to make a basic static page
+controller. Why in the world would you want one of these? It's easy to manage
+pages and 404 errors!
